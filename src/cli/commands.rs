@@ -7,21 +7,19 @@ use crate::{
 };
 
 pub fn handle_build(_matches: &clap::ArgMatches) -> Result<(), AppError> {
-  println!("Building...");
   let build_lambda = BuildLambda::new();
   let zip_bootstrap_files = ZipBootstrapFiles::new();
 
+  println!("Building...");
   build_lambda.execute()?;
+  println!("Zipping...");
   zip_bootstrap_files.execute()?;
 
   Ok(())
 }
 
-pub fn handle_deploy(_matches: &clap::ArgMatches) -> Result<(), AppError> {
-  println!("Deploying...");
-  let build_lambda = BuildLambda::new();
-
-  build_lambda.execute()?;
+pub fn handle_deploy(matches: &clap::ArgMatches) -> Result<(), AppError> {
+  handle_build(matches)?;
 
   Ok(())
 }
