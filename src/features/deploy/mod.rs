@@ -1,1 +1,1 @@
-pub mod serverless_deploy_action;
+pub mod actions;
