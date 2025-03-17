@@ -10,3 +10,6 @@ path = "src/lib.rs"
 [dependencies]
 clap = "4.5.32"
 zip = "2.2.3"
+
+[dev-dependencies]
+mockall = "0.13.1"
