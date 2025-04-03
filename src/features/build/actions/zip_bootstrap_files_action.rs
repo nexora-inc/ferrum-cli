@@ -32,7 +32,7 @@ impl IZipBootstrapFiles for ZipBootstrapFiles {
 
           match possible_folder_name {
             Some(folder_name) => {
-              let zip_file_path = directory_path.join(format!("{}", folder_name));
+              let zip_file_path = directory_path.join(format!("{}.zip", folder_name));
 
               let mut bootstrap_file = fs::File::open(&bootstrap_file_path)?;
               let zip_file = fs::File::create(&zip_file_path)?;
