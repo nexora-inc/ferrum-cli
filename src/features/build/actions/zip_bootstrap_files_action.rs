@@ -27,20 +27,30 @@ impl IZipBootstrapFiles for ZipBootstrapFiles {
         let bootstrap_file_path = directory_path.join("bootstrap");
 
         if bootstrap_file_path.exists() {
-          let zip_file_path = directory_path.join("bootstrap.zip");
+          let possible_folder_name = directory_path.file_name()
+            .and_then(|name| name.to_str());
 
-          let mut bootstrap_file = fs::File::open(&bootstrap_file_path)?;
-          let zip_file = fs::File::create(&zip_file_path)?;
-          let mut zip_writer = ZipWriter::new(zip_file);
+          match possible_folder_name {
+            Some(folder_name) => {
+              let zip_file_path = directory_path.join(format!("{}", folder_name));
 
-          zip_writer.start_file("bootstrap", SimpleFileOptions::default())?;
+              let mut bootstrap_file = fs::File::open(&bootstrap_file_path)?;
+              let zip_file = fs::File::create(&zip_file_path)?;
+              let mut zip_writer = ZipWriter::new(zip_file);
 
-          let mut buffer = Vec::new();
-          io::copy(&mut bootstrap_file, &mut buffer)?;
-          zip_writer.write_all(&buffer)?;
+              zip_writer.start_file("bootstrap", SimpleFileOptions::default())?;
 
-          zip_writer.finish()?;
-          println!(r#"Artifact created. Location: "{:?}""#, zip_file_path);
+              let mut buffer = Vec::new();
+              io::copy(&mut bootstrap_file, &mut buffer)?;
+              zip_writer.write_all(&buffer)?;
+
+              zip_writer.finish()?;
+              println!(r#"Artifact created. Location: "{:?}""#, zip_file_path);
+            }, None => {
+              eprintln!("Could not extract folder name for path: {:?}", directory_path);
+              continue;
+            },
+          }
         }
       }
     }
