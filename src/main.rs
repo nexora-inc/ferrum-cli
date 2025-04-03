@@ -1,3 +1,9 @@
+use ferrum_cli::cli;
+
 fn main() {
-    println!("Hello, world!");
+  if let Err(error) = cli::run() {
+    eprintln!("\n\n{:#?}", error);
+    std::process::exit(1);
+  }
 }
+
