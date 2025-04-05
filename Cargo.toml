@@ -3,4 +3,13 @@ name = "ferrum-cli"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+name = "ferrum_cli"
+path = "src/lib.rs"
+
 [dependencies]
+clap = "4.5.32"
+zip = "2.2.3"
+
+[dev-dependencies]
+mockall = "0.13.1"
