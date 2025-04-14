@@ -1,6 +1,6 @@
 use std::fs;
 
-use crate::{core::Result, types::utils::file_util::FerrumConfig, utils::{FileUtil, FileUtilProvider}};
+use crate::{core::Result, types::utils::file_util::FerrumConfig, utils::{CommandUtil, CommandUtilProvider, FileUtil, FileUtilProvider}};
 
 pub fn handle_build(_matches: &clap::ArgMatches) -> Result<()> {
   todo!();
@@ -28,7 +28,14 @@ pub fn handle_deploy(matches: &clap::ArgMatches) -> Result<()> {
   let env_lines = file_util.read_lines(&profile.env_path);
   println!("✅ Done");
 
+  let command_util = CommandUtil::new();
+
   println!("🛠️ Building...");
+  command_util.execute("cargo", "lambda", &[
+    "build", "--release",
+    "--bin", &bin_name,
+    "--target", "x86_64-unknown-linux-gnu",
+  ])?;
   println!("✅ Done");
 
   println!("⚙️ Deploying...");
