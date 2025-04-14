@@ -20,13 +20,18 @@ pub fn handle_deploy(matches: &clap::ArgMatches) -> Result<()> {
   println!("{:?}", data);
   println!("✅ Done");
 
-  let profile = data.profiles.get(profile_name)
+  let profile = data.profiles
+    .get(profile_name)
     .unwrap();
 
-  println!("🗂️ Reading from {} for environment variables...", profile.env);
+  println!("🗂️ Reading from {} for environment variables...", &profile.env_path);
+  let env_lines = file_util.read_lines(&profile.env_path);
   println!("✅ Done");
 
-  println!("🛠️ Deploying...");
+  println!("🛠️ Building...");
+  println!("✅ Done");
+
+  println!("⚙️ Deploying...");
   println!("✅ Done");
 
   Ok(())

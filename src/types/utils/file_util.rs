@@ -9,7 +9,7 @@ pub struct FerrumConfigAws {
 
 #[derive(Debug, Deserialize)]
 pub struct FerrumConfigProfile {
-  pub env: String,
+  pub env_path: String,
 }
 
 #[derive(Debug, Deserialize)]
