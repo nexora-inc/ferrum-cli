@@ -10,6 +10,9 @@ pub enum ErrorKind {
   /// Error during JSON parsing.
   JsonDeserialization,
 
+  /// Profile specified via arguments was not found in the configuration.
+  ProfileNotFound,
+
   /// Represents an unexpected or unhandled error condition.
   Unhandled,
 }

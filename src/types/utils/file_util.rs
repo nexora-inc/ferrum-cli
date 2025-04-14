@@ -4,6 +4,7 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct FerrumConfigAws {
+  pub region: String,
   pub iam_role: String,
 }
 
