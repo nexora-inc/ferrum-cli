@@ -1,4 +1,4 @@
-use clap::Command;
+use clap::{Arg, Command};
 
 pub fn build_cli() -> Command {
   Command::new("ferrum")
@@ -8,5 +8,20 @@ pub fn build_cli() -> Command {
     .subcommand(Command::new("build")
       .about("Build ferrum project using cargo."))
     .subcommand(Command::new("deploy")
-      .about("Deploy ferrum project using serverless framework."))
+      .about("Deploy ferrum project using serverless framework.")
+      .arg(Arg::new("bin_name")
+        .long("bin")
+        .value_name("BIN_NAME")
+        .help("Specify the binary target name")
+        .required(true))
+      .arg(Arg::new("lambda_name")
+        .long("lambda")
+        .value_name("LAMBDA_NAME")
+        .help("Specify the lambda name")
+        .required(true))
+      .arg(Arg::new("profile_name")
+        .long("profile")
+        .value_name("PROFILE_NAME")
+        .help("Specify the profile name")
+        .required(true)))
 }

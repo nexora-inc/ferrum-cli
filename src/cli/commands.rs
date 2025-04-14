@@ -1,32 +1,33 @@
-use crate::{
-  core::AppError,
-  features::{
-    build::actions::{
-      BuildLambda, IBuildLambda, IZipBootstrapFiles, ZipBootstrapFiles
-    }, command::action::ExecuteCommand, deploy::actions::{
-      IServerlessDeploy, ServerlessDeploy
-    }
-  },
-};
+use std::fs;
 
-pub fn handle_build(_matches: &clap::ArgMatches) -> Result<(), AppError> {
-  let execute_command = ExecuteCommand::new();
-  let build_lambda = BuildLambda::new(Box::new(execute_command));
-  let zip_bootstrap_files = ZipBootstrapFiles::new();
+use crate::{core::Result, types::utils::file_util::FerrumConfig, utils::{FileUtil, FileUtilProvider}};
 
-  println!("Building...");
-  build_lambda.execute()?;
-  println!("Zipping...");
-  zip_bootstrap_files.execute()?;
-
-  Ok(())
+pub fn handle_build(_matches: &clap::ArgMatches) -> Result<()> {
+  todo!();
 }
 
-pub fn handle_deploy(matches: &clap::ArgMatches) -> Result<(), AppError> {
-  let serverless_deploy = ServerlessDeploy::new();
+pub fn handle_deploy(matches: &clap::ArgMatches) -> Result<()> {
+  let bin_name = matches.get_one::<String>("bin_name")
+    .unwrap();
+  let lambda_name = matches.get_one::<String>("lambda_name")
+    .unwrap();
+  let profile_name = matches.get_one::<String>("profile_name")
+    .unwrap();
 
-  handle_build(matches)?;
-  serverless_deploy.execute()?;
+  println!("🗂️ Reading from ferrum.json for configuration...");
+  let file_util = FileUtil::new();
+  let data: FerrumConfig = file_util.read_json("ferrum.json")?;
+  println!("{:?}", data);
+  println!("✅ Done");
+
+  let profile = data.profiles.get(profile_name)
+    .unwrap();
+
+  println!("🗂️ Reading from {} for environment variables...", profile.env);
+  println!("✅ Done");
+
+  println!("🛠️ Deploying...");
+  println!("✅ Done");
 
   Ok(())
 }
