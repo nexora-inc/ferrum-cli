@@ -13,8 +13,14 @@ use crate::{
 };
 
 /// Handles the building process for a Rust Lambda binary.
-pub fn handle_build(_matches: &clap::ArgMatches) -> Result<()> {
-  todo!();
+pub fn handle_build(matches: &clap::ArgMatches) -> Result<()> {
+  let command_util = CommandUtil::new();
+  let build_lambda_binary = BuildLambdaBinaryAction::new(&command_util);
+  let bin_name: &String = matches.get_one("bin_name").unwrap();
+
+  build_lambda_binary.execute(&bin_name)?;
+
+  Ok(())
 }
 
 /// Handles the deployment process for a Rust Lambda function.
